@@ -1,0 +1,1131 @@
+//**************************
+/*------------------------- PROJECT ON LIC DATABASE-----------------------
+					       MADE BY -
+						 1)MANVI SINGHAL
+						 2)AYUSHI JAIN
+						 3)DEV GAUR   */
+//**************************
+
+
+
+//**************************
+//..header files..
+//**************************
+#include<fstream.h>
+#include<conio.h>
+#include<string.h>
+#include<dos.h>
+#include<ctype.h>
+#include<stdio.h>
+#include<process.h>
+#include<iomanip.h>
+#include<math.h>
+#include<stdlib.h>
+
+
+//**************************
+//some function prototypes..
+//**************************
+void newcus();
+void mainmen();
+void cusmen();
+void oldcus();
+void polmen();
+void tncagn();
+void oldagn();
+void newagn();
+void agnmen();
+void feedback();
+void admen();
+void adminmenu();
+void cusdisplay();
+void agdisplay();
+
+
+//**************************
+//class saving and displaying the address of the user..
+//**************************
+class address
+{
+	int hno;
+	char area[30];
+	char city[30];
+	char stat[30];
+	public:
+	void entadd()                               //fn for entering address
+	{
+		cout<<"\n\t\t->Address ";
+		cout<<"\n\t\t  ->Enter house number : ";
+		cin>>hno;
+		cout<<"\n\t\t  ->Enter area : ";
+		gets(area);
+		cout<<"\n\t\t  ->Enter city : ";
+		gets(city);
+		cout<<"\n\t\t  ->Enter state : ";
+		gets(stat);
+	}
+	void shadd()                                 //fn for showing address
+	{
+		cout<<"\n\t\t->Address ";
+		cout<<"\n\t\t  ->HOUSE NUMBER : "<<hno;
+		cout<<"\n\t\t  ->AREA : "<<area;
+		cout<<"\n\t\t  ->CITY : "<<city;
+		cout<<"\n\t\t  ->STATE : "<<stat;
+	}
+};
+
+
+//**************************
+//class for customers..
+//**************************
+class cus:public address
+//this class is inheriting thye public members of class address
+{
+	int cage;
+	char cname[30];
+	int ccode;
+	char polname[40];
+	long sumtot;
+	long time;
+	long premium;
+	long pre;
+	long prem;
+	int t;
+	public:
+	float calcpremium()        //fn to calculate the premium of the policy
+	{
+		pre=sumtot/time;
+		if(t==1)
+		{
+			prem=(pre)+((4.5/100)*pre)-((1/100)*pre);
+		}
+		else if(t==2)
+		{
+			prem=(pre)+((4.5/100)*pre)+((0.25/100)*pre);
+		}
+		else if(t==3)
+		{
+			prem=(pre)+((4.5/100)*pre)+((0.5/100)*pre);
+		}
+		else if(t==4)
+		{
+			prem=(pre)+((4.5/100)*pre)+((0.75/100)*pre);
+		}
+		return prem;
+	}
+//	public:
+	void entcus()                      //fn for entering customer details
+	{
+
+		int flag=0,flag1=0,flag2=0;
+		cout<<"\n\t\t->Enter name : ";
+		gets(cname);
+		while(flag2==0)
+		{
+			cout<<"\n\t\t->Enter age : ";
+			cin>>cage;
+			if(strcmp(polname,"ENDOWMENT POLICY")==0)
+			{
+				if(cage<12||cage>65)
+				{
+					cout<<"\n\t\tAge is not in the parameters";
+				}
+				else
+				{
+					flag2=1;
+				}
+			}
+			else if(strcmp(polname,"MONEY BACK POLICY")==0)
+			{
+				if(cage<20||cage>55)
+				{
+					cout<<"\n\t\tAge is not in the parameters";
+				}
+				else
+				{
+					flag2=1;
+				}
+			}
+			else if(strcmp(polname,"JEEVAN KISHORE")==0)
+			{
+				if(cage<18||cage>60)
+				{
+					cout<<"\n\t\tAge is not in the parameters";
+				}
+				else
+				{
+					flag2=1;
+				}
+			}
+		}
+		entadd();
+		while(flag==0)
+		{
+			cout<<"\n\t\t->Enter the sum total amount : ";
+			cin>>sumtot;
+			if(strcmp(polname,"ENDOWMENT POLICY")==0)
+			{
+				if(sumtot<100000)
+				{
+					cout<<"\n\t\tSum total is less than minimum value";
+				}
+				else
+				{
+					flag=1;
+				}
+			}
+			else if(strcmp(polname,"MONEY BACK POLICY")==0)
+			{
+				if(sumtot<50000)
+				{
+					cout<<"\n\t\tSum total is less than minimum value";
+				}
+				else
+				{
+					flag=1;
+				}
+			}
+			else if(strcmp(polname,"JEEVAN KISHORE")==0)
+			{
+				if(sumtot<35000)
+				{
+					cout<<"\n\t\tSum total is less than minimum value";
+				}
+				else
+				{
+					flag=1;
+				}
+			}
+		}
+		while(flag1==0)
+		{
+			cout<<"\n\t\t->Enter the time for which you wanna take the policy : ";
+			cin>>time;
+			if(strcmp(polname,"ENDOWMENT POLICY")==0)
+			{
+				if(time<12)
+				{
+					cout<<"\n\t\tVery less time period entered";
+				}
+				else
+				{
+					flag1=1;
+				}
+			}
+			else if(strcmp(polname,"MONEY BACK POLICY"))
+			{
+				if(time<20)
+				{
+					cout<<"\n\t\tVery less time period entered";
+				}
+				else
+				{
+					flag1=1;
+				}
+			}
+			else if(strcmp(polname,"JEEVAN KISHORE"))
+			{
+				if(time<10)
+				{
+					cout<<"\nt\tVery less time period entered";
+				}
+				else
+				{
+					flag1=1;
+				}
+			}
+		}
+		ccode=random(1000)+30;
+	      //	premium=calcpremium();
+		cout<<"\n\t\tEnter the interval of of policy payment";
+		cout<<"\nYou have the following choises :-";
+		cout<<"\n 1)Yearly\t2)Half Yearly\t3)Quaterly\t4)Monthly";
+		cout<<"\nEnter your choises : ";
+		cin>>t;
+		premium=calcpremium();
+	}
+	int retccode()                        //fn which return customer code
+	{
+		return ccode;
+	}
+	void polnam(int n)                //fn which assigns value to polname
+	{
+		if(n==1)
+			strcpy(polname,"ENDOWMENT POLICY");
+		else if(n==2)
+			strcpy(polname,"MONEY BACK POLICY");
+		else if(n==3)
+			strcpy(polname,"JEEVAN KISHORE");
+	}
+	void showcus()           //fn which shows the details of the customer
+	{
+		cout<<"\n\t\t\t->NAME : "<<cname;
+		cout<<"\n\t\t\t->AGE : "<<cage;
+		cout<<"\n\t\t\t->POLICY AQUIRED : ";
+		cout<<polname;
+		shadd();
+		cout<<"\n\t\t\t->SUM TOTAL : "<<sumtot;
+		cout<<"\n\t\t\t->TIME OF THE POLICY : "<<time;
+		cout<<"\n\t\t\t->PREMIUM = "<<premium;
+		cout<<"\n\t\t\t->CODE : "<<ccode;
+	}
+}c1;
+
+
+//**************************
+//class for agents..
+//**************************
+class agent:public address
+//this class is inheriting the public members of class address
+{
+	int aage;
+	char aname[30];
+	int acode;
+	float salary;
+	float policy;
+	public:
+	void entag()                       //fn which enter the data of agent
+	{
+		int flag=0;
+		cout<<"\n\t\t\t ENTER YOUR DETAILS";
+		cout<<"\n\t\t->Enter name : ";
+		gets(aname);
+		while(flag==0)
+		{
+			cout<<"\n\t\t->Enter age : ";
+			cin>>aage;
+			if(aage<18)
+			{
+				cout<<"\n\t\tAge not valid..";
+			}
+			else
+			{
+				flag=1;
+			}
+		}
+		entadd();
+		cout<<"\n\t\t->Salary : ";
+		cin>>salary;
+		cout<<"\n\t\t->Policies sold : ";
+		cin>>policy;
+		acode=random(500)+20;
+	}
+	void showag()                           //fn which show info of agent
+	{
+		clrscr();
+		cout<<"\n\n\t\t\t YOUR DETAILS ARE";
+		cout<<"\n\n\t\t->Name : "<<aname;
+		cout<<"\n\n\t\t->Age : "<<aage<<endl;
+		shadd();
+		cout<<"\n\n\t\t->Salary : "<<salary;
+		cout<<"\n\n\t\t->Policies sold : "<<policy;
+		cout<<"\n\n\t\t->Your code is : "<<acode;
+	}
+	void showdet()                      //fn which show the data of agent
+	{
+		cout<<"\n\n\t\t->Name : "<<aname;
+		cout<<"\n\n\t\t->Age : "<<aage<<endl;
+		shadd();
+		cout<<"\n\n\t\t->Salary : "<<salary;
+		cout<<"\n\n\t\t->Policies sold : "<<policy;
+	}
+	float retcode()                         //fn which returns agent code
+	{
+		return acode;
+	}
+};
+
+
+//**************************
+//this class works whenever the user wants to take a new policy..
+//**************************
+class newpol
+{
+	char pname[30];
+	int minage;
+	int maxage;
+	long psal;
+	float ti;
+	public:
+	void apol(int n)
+	{
+		if(n==1)
+		{
+			strcpy(pname,"ENDOWMENT POLICY");
+			minage=12;
+			maxage=65;
+			psal=100000;
+			ti=12;
+			c1.polnam(n);
+		}
+		else if(n==2)
+		{
+			strcpy(pname,"MONEY BACK POLICY");
+			minage=20;
+			maxage=55;
+			psal=50000;
+			ti=20;
+			c1.polnam(n);
+		}
+		else if(n==3)
+		{
+			strcpy(pname,"JEEVAN KISHORE");
+			minage=18;
+			maxage=60;
+			psal=35000;
+			ti=10;
+			c1.polnam(n);
+		}
+	}
+	void showpol(int n)             //fn giving an overview of the policy
+	{
+		char ch;
+		clrscr();
+		cout<<"\n  ---->NAME OF POLICY : "<<pname;
+		if(n==1)                                   //endowment policy
+		{
+			cout<<"\n\nFEATURES :- ";
+			cout<<"\n     LIC's NEW NEDOWMENT POLICY IS A PARTICIPATING NON-LINKED PLAN WHICH ";
+			cout<<"OFFERS AN ATTRACTIVE COMBINATION OF PROTECTION AND SAVING FEATURES..";
+			cout<<"THIS COMBINATION PROVIDES FINANCIAL SOPPORT TO THE FAMILY OF THE POLICY";
+			cout<<"HOLDER ANY TIME BEFORE MATURITY AND GOOD LUMP SUM AMOUNT AT THE TIME OF";
+			cout<<"MATURITY OF THE SURVIVING POLICY HOLDER";
+			cout<<"\nVARIOUS BENEFITS OF THIS POLICY ARE :-";
+			cout<<"\n  1)DEATH BENIFITS..\n  ";
+			cout<<"2)MATURITY BENEFITS   ,etc... ";
+		}
+		else if(n==2)                             //money back policy
+		{
+			cout<<"\n\nFEATURES :- ";
+			cout<<"\n     LIC's MONEY BACK POLICY IS A PARTICIPATING NON-LINKED PLAN WHICH ";
+			cout<<"OFFERS AN ATTRACTIVE COMBINATION OF PROTECTION AGAINST DEATH THROUGHOUT THE ";
+			cout<<"TERM OF PLAN ALONG SIDE WITH THE PERIODIC PAYMENT ON SURVIVAL AT SPECIFIED ";
+			cout<<"DURATIONS DURING THE TERM.. THIS UNIQUE COMBINATION PROVIDES FINANCIAL SUPPORT ";
+			cout<<"OF THE DECEASED POLICYHOLDER ANY TIME BEFORE MATURITY AND LUMP SUM AMOUNT AT THE ";
+			cout<<"THE TIME OF MATURITY OF THE SURVIVING POLICYHOLDER";
+			cout<<"\nVARIOS BENEFITS OF THIS POLICY ARE :-";
+			cout<<"\n  1)ASSURED DEATH BENEFITS..\n  ";
+			cout<<"2)SURVIVAL BENEFITS (20% of sum assured is given at intervals of 5,10 and 15 years)\n ";
+			cout<<" 3)MATURITY BENEFITS (in case of survival 40% of sum assured is given as extra) ,etc.";
+		}
+		else if(n==3)                         //jeevan kishore policy
+		{
+			cout<<"\n\nFEATURES :- ";
+			cout<<"\n     THIS ENDOWMENT ASSURANCE PLAN AVAILABLE FOR CHILDREN BELOW 12 YEARS.. ";
+			cout<<"THE POLICY MAY BE PURCHASED BY ANY PARENT OR GUARDIAN ";
+		}
+		cout<<"\n\nREQUIREMENTS:- ";
+		cout<<"\n ->AGE OF CUSTOMER - MIN. AGE : "<<minage<<"\t & \tMAX. AGE : "<<maxage;
+		cout<<"\n ->THE MINIMUM SUM TOTAL : "<<psal;
+		cout<<"\n ->MINIMUM TIME FOR WHICH YOU CAN TAKE THE POLICY : "<<ti;
+		cout<<"\n\nDOES THIS POLICY SATISFY YOUR NEEDS ? (y/n) : ";
+		cin>>ch;
+		if(ch=='y')
+		{
+			newcus();
+		}
+		else
+			polmen();
+		getch();
+	}
+
+};
+
+
+void cmodify(int r)                           //fn modifying the old policies
+{
+	clrscr();
+	fstream f;
+	f.open("cus.dat",ios::binary|ios::out|ios::in);
+	while(f.read((char*)&c1,sizeof(c1)))
+	{
+		if(c1.retccode()==r)
+		{
+			f.seekg(f.tellg()-sizeof(c1));
+			c1.entcus();
+			f.write((char*)&c1,sizeof(c1));
+		}
+	}
+	cout<<"\n\t\t\tYOUR NEW CODE IS : "<<c1.retccode();
+	f.close();
+}
+
+
+void amodify(int r)                                //fn modifying the old policies
+{
+	clrscr();
+	fstream f;
+	f.open("agent.dat",ios::binary|ios::out|ios::in);
+	agent agnt;
+	while(f.read((char*)&agnt,sizeof(agnt)))
+	{
+		if(agnt.retcode()==r)
+		{
+			f.seekg(f.tellg()-sizeof(agnt));
+			agnt.entag();
+			f.write((char*)&agnt,sizeof(agnt));
+		}
+	}
+	cout<<"\n\t\t\tYOUR NEW CODE IS : "<<agnt.retcode();
+	f.close();
+}
+
+void delcu(int r)		     //deleting data of a particular customer
+{
+	clrscr();
+	char ch;
+	ofstream fout;
+	fout.open("temp.dat",ios::binary);
+	ifstream fin;
+	fin.open("cus.dat",ios::binary);
+	while(fin.read((char*)&c1,sizeof(c1)))
+	{
+		if(c1.retccode()!=r)
+		{
+			fout.write((char*)&c1,sizeof(c1));
+		}
+	}
+	cout<<"\n\nThe customer data deleted";
+	fin.close();
+	fout.close();
+	remove("cus.dat");
+	rename("temp.dat","cus.dat");
+	xy:
+	cout<<"\n\nB - Privious screen\nX - Exit";
+	cin>>ch;
+	if(ch=='b'||ch=='B')
+	{
+		cusmen();
+	}
+	else if(ch=='x'||ch=='X')
+	{
+		exit(0);
+	}
+	else
+	{
+		cout<<"\nOPPS ! Wrong choice made";
+		goto xy;
+	}
+}
+
+
+void delag(int r)		        //deleting data of a particular agent
+{
+	clrscr();
+	char ch;
+	agent agnt;
+	ofstream fout;
+	fout.open("temp.dat",ios::binary);
+	ifstream fin;
+	fin.open("agent.dat",ios::binary);
+	while(fin.read((char*)&agnt,sizeof(agnt)))
+	{
+		if(agnt.retcode()!=r)
+		{
+			fout.write((char*)&agnt,sizeof(agnt));
+		}
+	}
+	cout<<"\nAGENT DATA IS DELETED";
+	fin.close();
+	fout.close();
+	remove("agent.dat");
+	rename("temp.dat","agent.dat");
+	xy:
+	cout<<"\n\nB - Privious screen\nX - Exit";
+	cin>>ch;
+	if(ch=='b'||ch=='B')
+	{
+		agnmen();
+	}
+	else if(ch=='x'||ch=='X')
+	{
+		exit(0);
+	}
+	else
+	{
+		cout<<"\nOOPS ! Wrong choice made";
+		goto xy;
+	}
+}
+
+
+//**************************
+//the main function..
+//**************************
+	void main()
+{
+	clrscr();
+
+	textcolor(YELLOW);
+	gotoxy(9,7);
+	cout<<"**           ***********           ***********   done by-Ayushi Jain";
+	gotoxy(9,8);
+	cout<<"**           ***********           ***********           1900910100055";
+	gotoxy(9,9);
+	cout<<"**              ****               **                    Dev Gaur";
+	gotoxy(9,10);
+	cout<<"**              ****               **                    1900910100059";
+	gotoxy(9,11);
+	cout<<"**              ****               **                    Manvi Singhal";
+	gotoxy(9,12);
+	cout<<"**              ****               **                    1900910100087";
+	gotoxy(9,13);
+	cout<<"**              ****               **";
+	gotoxy(9,14);
+	cout<<"**              ****               **";
+	gotoxy(9,15);
+	cout<<"**              ****               **";
+	gotoxy(9,16);
+	cout<<"**              ****               **";
+	gotoxy(9,17);
+	cout<<"**              ****               **";
+	gotoxy(9,18);
+	cout<<"*********    ***********           ***********";
+	gotoxy(9,19);
+	cout<<"*********    ***********           ***********";
+	gotoxy(25,25);
+	
+	
+	cout<<"LOADING";
+		for(int i=0;i<8;i++)
+		{
+			delay(1000);
+			cout<<".";
+		}
+	cout<<"WELCOME";
+	delay(400);
+	mainmen();
+}
+
+//**************************
+//main menu for lic...
+//**************************
+void mainmen()
+{
+	clrscr();
+	
+	char ch;
+
+	gotoxy(25,5);
+	cout<<"....WELCOME TO LIFE INSURANCE COMPANY....";
+	gotoxy(25,6);
+	cout<<"zindagi ke saath bhi , zidagi ke baad bhi";
+	gotoxy(25,7);
+	cout<<"_______________";
+	gotoxy(36,9);
+	cout<<"L.I.C. MENU";
+	gotoxy(36,12);
+	cout<<"C= CUSTOMER";
+	gotoxy(36,14);
+	cout<<"A= AGENT";
+	gotoxy(36,16);
+	cout<<"Z= ADMIN";
+	gotoxy(36,18);
+	cout<<"X= EXIT";
+	gotoxy(30,20);
+	cout<<"Please enter your choice : ";
+	x:cin>>ch;
+	switch(ch)
+		{
+			case 'c'  :
+			case 'C'  : cusmen();
+				    break;
+			case 'a'  :
+			case 'A'  : agnmen();
+				    break;
+			case 'z'  :
+			case 'Z'  : admen();
+				    break;
+			case 'x'  :
+			case 'X'  : exit(0);
+			default   : cout<<"oops! wrong choice entered. Enter your choice again"; goto x;
+
+
+		}
+}
+
+
+void cusmen()                       //customer menu is displyed under this fn
+{
+	clrscr();
+	
+	char b;
+
+	gotoxy(36,5);
+	cout<<"CUSTOMER MENU";
+	gotoxy(36,6);
+	cout<<"____";
+	gotoxy(36,9);
+	cout<<"O= OLD CUSTOMER";
+	gotoxy(36,11);
+	cout<<"P= POLICIES AND NEW CUSTOMER";
+	gotoxy(36,13);
+	cout<<"B= BACK";
+	gotoxy(36,15);
+	cout<<"X= EXIT";
+
+	gotoxy(30,19);
+	cout<<"Please enter your choice : ";
+	y:cin>>b;
+
+	switch(b)
+	{
+		case 'o':
+		case 'O':oldcus();
+			 break;
+		case 'p':
+		case 'P':polmen();
+			 break;
+		case 'b':
+		case 'B':mainmen();
+			 break;
+		case 'x':
+		case 'X':feedback();
+			 exit(0);
+		default :cout<<"oops! wrong choice entered. Enter your choice again"; goto y;
+	}
+}
+
+
+void polmen()                      //fn displaying information about policies
+{
+
+	clrscr();
+	int inp;
+	newpol p1;
+	gotoxy(30,5);
+	cout<<"LIFE INSURANCE POLICIES";
+	gotoxy(30,6);
+	cout<<"_________";
+	gotoxy(31,9);
+	cout<<"1. Endowment Policy";
+	gotoxy(31,11);
+	cout<<"2. Money Back Policy";
+	gotoxy(31,13);
+	cout<<"3. Jeevan Kishore";
+	gotoxy(31,15);
+	cout<<"4. Back to previous menu";
+	gotoxy(31,17);
+	cout<<"5. To Exit";
+	gotoxy(31,19);
+	cout<<"Please enter your choice : ";
+	x:cin>>inp;
+	switch (inp)
+	{
+		case 1  : p1.apol(inp);
+			  p1.showpol(inp);
+			  break;
+		case 2  : p1.apol(inp);
+			  p1.showpol(inp);
+			  break;
+		case 3  : p1.apol(inp);
+			  p1.showpol(inp);
+			  break;
+		case 4  : cusmen();
+			  break;
+		case 5  : feedback();
+			  exit(0);
+			  break;
+		default : cout<<"oops! wrong choice entered. Enter your choice again"; goto x;
+	}
+}
+
+
+void newcus()                         //new customer is created under this fn
+{
+	clrscr();
+	ofstream fout;
+	fout.open("cus.dat",ios::binary|ios::app);
+	cout<<"\t\t\tENTER DATA\n";
+	c1.entcus();
+	fout.write((char*)&c1,sizeof(c1));
+	fout.close();
+	cout<<"\nTHANK YOU , YOUR DATA IS SUCCESFULLY ENTERED";
+	delay(550);
+	clrscr();
+	cout<<"\t\t\t\t\tYOUR DATA : ";
+	c1.showcus();
+	getch();
+	cusmen();
+}
+
+
+void oldcus()    //fn showing the old customer data & modifying their records
+{
+	clrscr();
+	int c,a,m,x;
+	char ch='y';
+	int flag=0;
+	cout<<"\nENTER YOUR CODE : ";
+	cin>>c;
+	ifstream fin;
+	fin.open("cus.dat",ios::binary|ios::app);
+	while(fin.read((char*)&c1,sizeof(c1)))
+	{
+	       if(c1.retccode()==c)
+	       {
+		      c1.showcus();
+		      flag=1;
+		      x=c;
+	       }
+	}
+	if(flag==0)
+	cout<<"\nSORRY ! NO RECORD FOUND.";
+	else
+	{
+		while(ch=='y')
+		{
+			cout<<"\nOPERATIONS : ";
+			cout<<"\n1) TO MODIFY YOUR ACCOUNT ";
+			cout<<"\n2) TO DELETE ACCOUNT ";
+			cout<<"\n3) TO JUMP TO PREVIOUS MENU";
+			cout<<"\nENTER YOUR CHOICE ";
+			x:cin>>a;
+			switch(a)
+			{
+				case 1  : cmodify(x);
+					  break;
+				case 2  : delcu(x);
+					  break;
+				case 3  : goto g;
+				default : cout<<"oops! wrong choice entered. Enter your choice again"; goto x;
+			}
+			cout<<"\nWANT TO DO MORE OPERATIONS ? (y/n) ";
+			cin>>ch;
+		}
+	}
+	g:cout<<"\nREDIRECTING TO PREVIOUS MENU ";
+	delay(500);
+	fin.close();
+	cusmen();
+}
+
+
+void agnmen()                         //agent menu is displayed under this fn
+{
+	char b;
+	clrscr();
+	gotoxy(36,5);
+	cout<<"AGENT MENU";
+	gotoxy(36,6);
+	cout<<"____";
+	gotoxy(36,9);
+	cout<<"O=OLD AGENT";
+	gotoxy(36,11);
+	cout<<"N=NEW AGENT";
+	gotoxy(36,13);
+	cout<<"T=TERMS & CONDITIONS";
+	gotoxy(36,15);
+	cout<<"B=BACK";
+	gotoxy(36,17);
+	cout<<"X=EXIT";
+
+	cout<<"\n\n";
+	gotoxy(30,20);
+	cout<<"Please enter your choice : ";
+	y:cin>>b;
+
+	switch(b)
+	{
+		case 'o':
+		case 'O':	oldagn();
+				break;
+		case 'n':
+		case 'N':	newagn();
+				break;
+		case 'T':
+		case 't':	tncagn();
+				break;
+		case 'b':
+		case 'B':	mainmen();
+				break;
+		case 'X':
+		case 'x':	exit(0);
+				break;
+		default :	goto y;
+	}
+}
+
+
+void newagn()                //new agent information is entered under this fn
+{
+	clrscr();
+	ofstream fout;
+	fout.open("agent.dat",ios::binary|ios::app);
+	agent agnt;
+	agnt.entag();
+	fout.write((char*)&agnt,sizeof(agnt));
+	fout.close();
+	cout<<"\nTHANK YOU , YOUR DATA IS SUCCESFULLY ENTERED";
+	delay(600);
+	clrscr();
+
+	agnt.showag();
+	getch();
+	agnmen();
+}
+
+
+void oldagn()              //old agent information is displayed under this fn
+{
+	clrscr();
+	int code,flag=0;
+	int a,x;
+	char ch='y';
+	ifstream fin;
+	fin.open("agent.dat",ios::binary|ios::app);
+	agent agnt;
+	cout<<"\n\t\t\tEnter your agent code : ";
+	cin>>code;
+	while(fin.read((char*)&agnt,sizeof(agnt)))
+	{
+		if(agnt.retcode()==code)
+		{
+			agnt.showdet();
+			flag=1;
+			x=code;
+		}
+	}
+	if(flag==0)
+	{
+		cout<<"\n\t\t\tSORRY ! NO RECORD FOUND.";
+
+	}
+	else
+	{
+
+		while(ch=='y')
+		{
+			cout<<"\nOPERATIONS : ";
+			cout<<"\n1) TO MODIFY YOUR ACCOUNT ";
+			cout<<"\n2) TO DELETE ACCOUNT ";
+			cout<<"\n3) TO JUMP TO PREVIOUS MENU";
+			cout<<"\nENTER YOUR CHOICE ";
+			x:cin>>a;
+			switch(a)
+			{
+				case 1  : amodify(x);
+					  break;
+				case 2  : delag(x);
+					  break;
+				case 3  : goto g;
+				default : cout<<"oops! wrong choice entered. Enter your choice again"; goto x;
+			}
+			cout<<"\nWANT TO DO MORE OPERATIONS ? (y/n) ";
+			cin>>ch;
+		}
+	}
+	g:cout<<"\n\t\tREDIRECTING TO PREVIOUS MENU";
+	delay(550);
+	fin.close();
+	agnmen();
+}
+
+
+void tncagn()          //fn showing terms & conditions for an applicant agent
+{
+	clrscr();
+	gotoxy(25,5);
+	cout<<"TERMS & CONDITIONS FOR AGENT";
+	gotoxy(25,6);
+	cout<<"__________";
+	gotoxy(15,10);
+	cout<<"¯ MINIMUM ELIGIBILITY FOR LIFE INSURANCE AGENCY";
+	gotoxy(19,12);
+	cout<<"* QUALIFICATION : 12th class passed";
+	gotoxy(19,14);
+	cout<<"* AGE : 18 years completed";
+	gotoxy(19,16);
+	cout<<"* Applicant should have passed the online exam";
+	gotoxy(21,18);
+	cout<<"conducted by NSE-IT";
+	gotoxy(15,22);
+	cout<<"¯ AGENT'S LICENSE is issued for 3 years in the";
+	gotoxy(17,24);
+	cout<<"beginning and renewed thereafter for another 3 years";
+	gotoxy(17,26);
+	cout<<"after the completion of 25 hours of Agent's training.";
+	gotoxy(15,30);
+	cout<<"¯ BUSINESS CONDITION FOR THE AGENCY ENFORCED";
+	gotoxy(19,32);
+	cout<<"* 12 lives with 1 lac sum assured";
+	gotoxy(19,34);
+	cout<<"* First Premium Income(FPI) : Rs. 1 lac";
+	getch();
+	agnmen();
+}
+
+
+void admen()                                          //password fn for admin
+{
+	clrscr();
+	int ch2;
+	char ch;
+	char str[10];
+	cout<<"\nENTER THE PASSWORD : ";
+	for(int i=0;i<8;i++)
+	{
+		ch=getch();
+		str[i]=ch;
+		cout<<"*";
+	}
+	str[i]='\0';
+	if(strcmpi(str,"LICADMIN")==0)
+	{
+		for(int i=0;i<5;i++)
+		{
+			delay(100);
+			cout<<".";
+		}
+		adminmenu();
+	}
+	else if(strcmpi(str,"LICADMIN")!=0)
+	{
+		cout<<"\nWrong password ";
+		cout<<"\nExiting to main menu";
+		for(int i=0;i<6;i++)
+		{
+			delay(250);
+			cout<<".";
+		}
+		mainmen();
+	}
+}
+
+
+void adminmenu()                                     //menu for administrator
+{
+	char b;
+	clrscr();
+	gotoxy(36,5);
+	cout<<"ADMIN MENU";
+	gotoxy(36,6);
+	cout<<"____";
+	gotoxy(36,9);
+	cout<<"C=CUSTOMER DATA";
+	gotoxy(36,11);
+	cout<<"A=AGENT DATA";
+	gotoxy(36,13);
+	cout<<"B=BACK";
+	gotoxy(36,15);
+	cout<<"X=EXIT";
+	cout<<"\n\n";
+	gotoxy(30,20);
+	data:
+	cout<<"Please enter your choice : ";
+	cin>>b;
+	switch(b)
+	{
+		case 'c':
+		case 'C':	cusdisplay();
+				break;
+		case 'a':
+		case 'A':	agdisplay();
+				break;
+		case 'b':
+		case 'B':	mainmen();
+				break;
+		case 'X':
+		case 'x':	exit(0);
+				break;
+		default :	cout<<"\nWrong choise entered";
+				goto data;
+
+	}
+}
+
+
+void cusdisplay()                       //fn displaying all data of customers
+{
+	clrscr();
+	int f=0;
+	ifstream fin;
+	fin.open("cus.dat",ios::binary);
+	while(fin.read((char*)&c1,sizeof(c1)))
+	{
+		int i=1;
+		char choi;
+		cout<<"\n\t# CUSTOMER NUMBER "<<i<<" :--";
+		c1.showcus();
+		delay(1000);
+		cout<<"\n\n\n\n\nWant to move to next data ? ";
+		cout<<"\nIf YES - press 'Y'\tIf NO - press 'N' : ";
+		cin>>choi;
+		if(choi=='N'||choi=='n')
+		{
+			adminmenu();
+			break;
+		}
+		clrscr();
+		f=1;
+		i++;
+	}
+	fin.close();
+	if(f==0)
+	{
+		cout<<"\nNo data exists ..";
+		delay(1000);
+	}
+	adminmenu();
+}
+
+
+void agdisplay()                           //fn displaying all data of agents
+{
+	clrscr();
+	int f=0;
+	agent agnt;
+	ifstream fin;
+	fin.open("agent.dat",ios::binary);
+	while(fin.read((char*)&agnt,sizeof(agnt)))
+	{
+		int i=1;
+		char choi;
+		cout<<"\n\t# AGENT NUMBER "<<i<<" :--";
+		agnt.showdet();
+		delay(1000);
+		cout<<"\n\n\n\n\nWant to move to next data ? ";
+		cout<<"\nIf YES - press 'Y'\tIf NO - press 'N' : ";
+		cin>>choi;
+		if(choi=='N'||choi=='n')
+		{
+			adminmenu();
+			break;
+		}
+		clrscr();
+		f=1;
+		i++;
+	}
+	fin.close();
+	if(f==0)
+	{
+		cout<<"\nNo data exists ..";
+		delay(1000);
+	}
+	adminmenu();
+}
+
+
+void feedback()                                   //feedback fn for customers
+{
+	clrscr();
+	char comment[100],ch;
+	int x;
+	cout<<"\nDo you like the services of LIC ";
+	cout<<"\nPlease enter 'y' for yes and 'n' for no";
+	cout<<"\nEnter your choice : ";
+	cin>>ch;
+	if(ch=='y')
+	{
+		cout<<"\nHow much would you rate us (from 1 to 10)";
+		cin>>x;
+		cout<<"\nWould you like to give any comments about our services or any suggestions for";
+		cout<<"\nimprovement or please enter no(if you dont wish to) : ";
+		gets(comment);
+		delay(250);
+	}
+	cout<<"\n                  ....THANKS FOR USING THE SERVICES OF LIC....";
+	delay(500);
+	exit(0);
+	getch();
+}
