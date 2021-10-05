@@ -1,2 +1,2 @@
 # LIC-project
-#MINI PROJECT DONE IN C++  --2021
+DONE IN C++  --2021
